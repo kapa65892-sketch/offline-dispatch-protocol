@@ -1,9 +1,18 @@
-# Offline Emergency Dispatch Protocol — Draft Specification v0.2
+# Offline Emergency Dispatch Protocol — Draft Specification v0.3
 
 **Status:** draft, open for objection.
 **Author:** Igor Kapustin.
 **Editor and interlocutor:** Claude (Claude Opus 5), a large language model by Anthropic.
-**Also used:** Gemini 3.7 Flash (Google).
+**Also used:** Gemini 3.7 Flash (Google), GPT-5.6 Sol (OpenAI).
+
+**Changes in v0.3** — all four corrections came from outside review, and all four fixed errors in v0.2:
+- R9a: the reference to avalanche transceivers was wrong. Those are active transmitters; the unpowered interrogated reflector is a different technology (RECCO). The corrected reference is noted, and a possible passive second layer is described as an open engineering question rather than as a requirement.
+- R9a: the "one to two orders of magnitude cheaper" energy claim is withdrawn. It was an unmeasured figure in a document that forbids unmeasured figures.
+- R10: the justification is now engineering, not regulatory. The claim that a deterministic core is "the only route through certification" was false — regulators already approve machine-learning medical devices, including ones with pre-authorised model change plans.
+- R9b: barometers are not present in every handset. Sensor availability must degrade gracefully.
+
+The four corrections shared a single pattern — a true statement placed at a higher level of certainty than the evidence supported. The reading rule at the top of the requirements section was extracted from that pattern and added so the same error can be caught without an external reviewer.
+
 **Changes in v0.2:** deterministic core split from the language model (R10); beacon changed from periodic emission to silence-by-default (R9a); regulatory precedent named (eCall, ELT); power budget marked as unverified.
 
 ## The problem
@@ -21,6 +30,18 @@ It is not a claim that on-device models save lives. There have been no trials an
 This is therefore not a proposal to ship. It is a list of properties without which shipping is irresponsible.
 
 ## Requirements
+
+### How to read this specification
+
+Statements in this document sit at three different levels:
+
+- **Requirement** — what the system must do, independent of how it is implemented.
+- **Mechanism** — one possible way to satisfy a requirement. A mechanism is not a requirement and may be replaced without changing it.
+- **Open question** — something not established by measurement, experiment, or field evidence. It must not be treated as a capability or used as a premise until resolved.
+
+The same idea may move between these levels as evidence changes. Its place is determined by what is known, not by how plausible or useful the idea appears.
+
+A correct statement can still sit at the wrong level, and that is the error this document has most often made. Reviewing it therefore means asking two questions, not one: is this true, and is it established well enough to stand where it stands.
 
 ### Behaviour
 
@@ -52,7 +73,9 @@ Deliver instructions in a form the person can carry away without the device. Off
 **R10. The protocol is deterministic; the model is not in the decision path.**
 Triage logic lives in a fixed finite state machine — auditable, reproducible, identical on every run. The language model is invoked only at the edges: interpreting slurred or fragmentary speech into a state transition, and rendering a fixed instruction in words the person can follow.
 
-This is not a stylistic preference. It is the only route through certification that currently exists: no regulator has a procedure for approving a device whose output is not reproducible, and a state machine is reproducible by construction. It also bounds the failure mode — a hallucinated instruction cannot enter the protocol, only a misheard input can, and a misheard input is recoverable by asking again.
+The argument for this is engineering, not regulatory. Regulators do approve machine-learning devices — the FDA has authorised many, including devices shipping with pre-authorised plans for changing the model after approval — so non-determinism alone is not a bar to certification, and v0.2 was wrong to claim it was.
+
+The reason to keep the model out of the decision path is narrower and stronger: it bounds the failure surface. A fabricated instruction cannot enter the protocol at all; only a misheard input can, and a misheard input is recoverable by asking again. It also makes the system testable in the ordinary sense — the same input produces the same path every time, so a failure can be reproduced, and a fix can be shown to work. In a domain where the user cannot verify the output and cannot undo the action, that is worth more than the flexibility it costs.
 
 **R11. The emergency domain is isolated from the operating system.**
 Sensor data collected in emergency mode must be inaccessible to the user-facing OS and to applications. A device that listens after it has declared itself off is a surveillance device unless this isolation is enforced in hardware.
@@ -63,10 +86,24 @@ Sensor data collected in emergency mode must be inaccessible to the user-facing 
 A locked capacity floor, released only after the device has declared itself dead to the user. Enforced by the power controller, not by software, for the same reason the man in the opening scene would have spent it on conversation.
 
 **R9a. Silence by default.**
-The beacon does not emit on a timer. It stays radio-silent and answers only when interrogated by an external pulse — a search drone, a ground radar, a handheld interrogator. This is how avalanche transceivers work, and it is one to two orders of magnitude cheaper in energy than periodic emission. Fallback for the case where no interrogator exists: audible and optical signalling, which requires nothing on the rescuer's side but ears and eyes.
+Nothing emits on a timer. Detection is answered, not broadcast.
+
+*Interrogated response from reserve.* A low-power responder that stays silent until an external pulse arrives — a search drone, ground radar, a handheld interrogator — and then answers with the status packet described in R9b. This is what makes triage possible, and it is what the reserve in R9 is for.
+
+*Fallback where no interrogator exists:* audible and optical signalling, which requires nothing on the rescuer's side but ears and eyes. What triggers it is undecided and matters more than it appears — user activation, an acoustic event nearby, or a slow periodic pulse are three different devices with three different energy budgets, and the third contradicts the rule above. Stated here as an open question rather than resolved by preference.
+
+*A possible second layer, not a requirement.* Passive interrogated reflection — a component that needs no power at all and re-radiates a searcher's directed signal — would survive a fully dead device and carry one bit: something is here. RECCO demonstrates that the principle works in avalanche rescue, where the searcher carries the transmitter and the buried person carries an unpowered reflector. Whether an equivalent can be integrated into a handset is an open engineering question, not an established one: antenna geometry, frequency selection, detectability through building structures, and compatibility with the search equipment rescuers actually field are all unresolved. It is listed here because the split it suggests is worth considering — locating an object and reading its state need not depend on the same mechanism — not because it is known to be buildable.
+
+Answering rather than broadcasting may reduce energy expenditure, depending entirely on the wake and listening architecture: a receiver that must stay alert has its own standing cost, and false wake-ups have theirs. Whether the net is favourable, and under which design, is unmeasured. See the power budget note below.
 
 **R9b. Report state, not just position.**
-The reserve should carry a compressed status packet: signs of life, time since last movement, last detected acoustic event, barometric trend. Assembled from sensors every handset already has — microphone, accelerometer, barometer, light. This changes not the speed of a search but the order in which rubble is cleared, and order matters more.
+The reserve should carry a compressed status packet of observations, not conclusions: movement events and time since the last one, acoustic events and time since the last one, and — where a barometer is present — pressure readings and their trend.
+
+What can be inferred from those observations is a separate and unproven question. "Signs of life" is itself an inference, not a reading, and so are depth of burial and flooding risk: all are plausible candidates, not established capabilities. Nobody has shown what a handset barometer under rubble reads, or with what reliability. The packet should carry the measurement and leave the interpretation to whoever has validated it.
+
+The observations come from sensors already present in handsets — microphone and accelerometer in effectively all of them, barometer and ambient light in many but not all. Availability varies by device, so the packet must degrade gracefully: absent a barometer, that field is simply missing, not the whole report.
+
+What this changes is not the speed of a search but the order in which rubble is cleared, and order matters more.
 
 In a mass-casualty event this stops being a refinement and becomes the point. When hundreds of people are trapped and there are dozens of rescue teams, the binding constraint is not detection but triage: which site first. A device that can distinguish "movement ceased four hours ago" from "impact events five minutes ago" is contributing to the only decision that is actually scarce. Reference scenarios for a magnitude 7.5 event on the Dead Sea Transform project figures in the range of 16,000 dead and hundreds of thousands displaced — a scale at which clearing order determines a large share of the outcome.
 
@@ -90,6 +127,9 @@ The plausible route here is the same: a mandatory offline safety profile agreed 
 - Who switches the dispatch mode on? False positives train obedience; false negatives waste the minutes that matter.
 - Directive delivery multiplies compliance — for correct and incorrect instructions alike, by the same factor. How should the mode's boundaries be narrowed to account for this?
 - **What is the actual power cost of the listening duty cycle, and what reserve does it imply?** Continuous acoustic classification, periodic sampling, and pure motion-triggered wake give budgets that differ by orders of magnitude. This is the first number that needs a real measurement rather than an estimate.
+- What triggers the audible/optical fallback without violating the no-timer rule?
+- What does a handset barometer actually read under rubble, and what can be inferred from it? Depth and flooding risk are assumed here, not demonstrated.
+- Can an unpowered interrogated reflector be integrated into a handset at all — antenna geometry, frequency, detectability through building structures, compatibility with fielded search equipment? The principle is demonstrated elsewhere; the implementation is not.
 - Where exactly is the boundary between the state machine and the language model? Every function moved into the model buys flexibility and costs auditability.
 - Liability: who answers when an instruction was followed and the person died?
 - Is there an agreed method for estimating the affected population at all? Different models produce different orders of magnitude from identical open data.
@@ -113,6 +153,8 @@ Two notes on scope. First, the method would be for the people who allocate and r
 Open an issue. Objections to any requirement are more useful than agreement. The most valuable ones: R9 is not implementable because X; the survival gain estimate is wrong because Y; requirement Z would kill people in situation W.
 
 Numbers in this document that are marked unverified are marked deliberately. Replacing one of them with a measured figure is the single most useful contribution available.
+
+Every change in v0.3 came from someone pointing out an error rather than from the author improving his own text. That is the intended failure mode of this document, and objections that break something are welcome on the same terms.
 
 ## Source article
 
