@@ -3,8 +3,8 @@
 **Status:** draft, open for objection.
 **Author:** Igor Kapustin.
 **Editor and interlocutor:** Claude (Claude Opus 5), a large language model by Anthropic.
-**Also used:** Gemini 3.7 Flash (Google
-**Changes in v0.2:** deterministic core split from the language model (R10); beacon changed from periodic emission to silence-by-default (R9); regulatory precedent named (eCall, ELT); power budget marked as unverified.
+**Also used:** Gemini 3.7 Flash (Google).
+**Changes in v0.2:** deterministic core split from the language model (R10); beacon changed from periodic emission to silence-by-default (R9a); regulatory precedent named (eCall, ELT); power budget marked as unverified.
 
 ## The problem
 
