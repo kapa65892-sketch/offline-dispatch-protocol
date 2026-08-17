@@ -1,166 +1,196 @@
-# Offline Emergency Dispatch Protocol — Draft Specification v0.3
+# Offline Emergency Dispatch Protocol
 
-**Status:** draft, open for objection.
-**Author:** Igor Kapustin.
-**Editor and interlocutor:** Claude (Claude Opus 5), a large language model by Anthropic.
-**Also used:** Gemini 3.7 Flash (Google), GPT-5.6 Sol (OpenAI).
+We do not know what will happen in the next second. As a rule, nothing. No catastrophe, and that is our good fortune.
 
-**Changes in v0.3** — all four corrections came from outside review, and all four fixed errors in v0.2:
-- R9a: the reference to avalanche transceivers was wrong. Those are active transmitters; the unpowered interrogated reflector is a different technology (RECCO). The corrected reference is noted, and a possible passive second layer is described as an open engineering question rather than as a requirement.
-- R9a: the "one to two orders of magnitude cheaper" energy claim is withdrawn. It was an unmeasured figure in a document that forbids unmeasured figures.
-- R10: the justification is now engineering, not regulatory. The claim that a deterministic core is "the only route through certification" was false — regulators already approve machine-learning medical devices, including ones with pre-authorised model change plans.
-- R9b: barometers are not present in every handset. Sensor availability must degrade gracefully.
+A person is not obliged to think about it. He lives as though nothing will happen — and is almost always right.
 
-The four corrections shared a single pattern — a true statement placed at a higher level of certainty than the evidence supported. The reading rule at the top of the requirements section was extracted from that pattern and added so the same error can be caught without an external reviewer.
+The people who build devices and write rules are obliged to think about it. They are the only ones who can act beforehand. In that second the person can change nothing: whatever was in his pocket was in his pocket.
 
-**Changes in v0.2:** deterministic core split from the language model (R10); beacon changed from periodic emission to silence-by-default (R9a); regulatory precedent named (eCall, ELT); power budget marked as unverified.
+This is how all safety engineering works. Nobody starts the car thinking "today I crash" — the seatbelt is mandatory anyway. Nobody boards a ferry thinking about the storm — the vest is under the seat. Responsibility for the rare and sudden is always moved off the person and onto the manufacturer and the regulator. Precisely because the person is not ready at that moment, and should not have to be.
 
-## The problem
+A man is lying under a concrete slab. In his hand is a phone with no connection. The screen glows, the battery drains, darkness.
 
-Roughly 2,000 people a day die in a position that has no name: help is needed within minutes, the outcome is irreversible, and there is nowhere to call. Not in disasters — on highways, in villages, at night, in countries with no dispatch service. The upper estimate is ten times higher. (Derivation and sources: see the linked article.)
+The phone is there because it is always there. In the bathroom, at work, at dinner, on the pillow at night. It follows a person everywhere — and so it is there at that minute. Intact or broken, like its owner.
 
-Meanwhile, AI has been deployed into 911 dispatch centers (Seattle, New Orleans, Atlanta), and rubble-search technology is built for rescue teams. Both went to where help already exists. The person with no one to call is the addressee of neither.
+Inside is a model that knows first aid, physics, what to do about hypothermia. It will answer any question politely and accurately.
 
-An on-device model does not replace the network. It replaces the **missing dispatcher** — the one who, in a normal situation, walks a person through it step by step while help is on the way.
+He will ask the wrong one. He is injured, in the dark, in shock. His thinking has narrowed and fear is pointing him elsewhere.
 
-## What this document is not
+## Why a phone, not a dedicated device
 
-It is not a claim that on-device models save lives. There have been no trials and there is no track record. Today "it will save" is exactly as unprovable as "it will kill." The sign of the effect may be negative: a confident wrong instruction is followed more readily than an unconfident right one, and a person who stops feeling alone stops calling out for help.
+Nobody prepares for the sudden. Any rescue device demands foresight: buy it, carry it, remember it, keep it charged. And the person who does all that is usually not the one it happens to. A few prepare; anyone at all ends up under the slab.
 
-This is therefore not a proposal to ship. It is a list of properties without which shipping is irresponsible.
+The phone removes the foresight requirement entirely. It is there not because the person prepared but because he never parts with it. In the bath, in the bathroom, on the pillow at night, at work, at the wheel, in bed with someone. It goes everywhere — with no intention of being a rescue device.
 
-## Requirements
+So in that unpredictable second, in a large share of cases, it will be within a metre of the body or against it. Under rubble, in an overturned car, at the bottom of a ravine.
 
-### How to read this specification
+That is the answer to why a phone rather than a dedicated device. Not because the phone is better — a purpose-built beacon would be better on every axis at once: power, antenna, ruggedness. Because the purpose-built beacon will not be there, and the phone will.
 
-Statements in this document sit at three different levels:
+Not always, of course. It can be left in another room, thrown clear of the car, crushed. So: a large share of cases, not all. But no other object comes anywhere near that share.
 
-- **Requirement** — what the system must do, independent of how it is implemented.
-- **Mechanism** — one possible way to satisfy a requirement. A mechanism is not a requirement and may be replaced without changing it.
-- **Open question** — something not established by measurement, experiment, or field evidence. It must not be treated as a capability or used as a premise until resolved.
+## People are dying now
 
-The same idea may move between these levels as evidence changes. Its place is determined by what is known, not by how plausible or useful the idea appears.
+Around 2,000 people a day die where help is needed within minutes, the outcome is irreversible, and there is nowhere to call. Not in disasters — on highways, in villages, at night, in countries with no dispatch service. The upper estimate is ten times higher.
 
-A correct statement can still sit at the wrong level, and that is the error this document has most often made. Reviewing it therefore means asking two questions, not one: is this true, and is it established well enough to stand where it stands.
+60,000 a month. 730,000 a year.
 
-### Behaviour
+If an on-device dispatcher saves two or three in a hundred — about what telephone CPR instruction achieves — that is 15,000 to 20,000 lives a year. Seven years of waiting: over 100,000 people.
 
-**R1. State what it does not know — before the advice, not after.**
-A real dispatcher escalates to a supervisor. There is no supervisor here.
+Order-of-magnitude estimates. All four steps are in the source article; anyone can repeat them.
 
-**R2. Ask back rather than answer what was asked.**
-A person asks about a dosage when the real question is whether to drive or wait. He asks what his name is — while the unasked question is how long the arm has been pinned.
+## Where the numbers come from
 
-**R3. One step, then wait for confirmation.**
-Not a paragraph of six points. Under acute stress, lists are not retained.
+There is no precise statistic: nobody counts "moments of isolated decision" as a category. The estimate is built by multiplication, in four steps, each of which can be checked.
 
-**R4. Sort by time to the nearest threshold** — loss of consciousness, respiratory failure, irreversibility — not by what the person is anxious about. Count to the first point past which the person can no longer act for himself, not to the last.
+**One.** Out-of-hospital cardiac arrest: 55–113 cases per 100,000 person-years. About 4.6 billion people live without access to essential health services; over 300 million live outside any mobile coverage. From this one diagnosis alone: 500 to 7,000 deaths a day in the position of "nowhere to call." Add trauma, poisoning and childbirth: thousands a day on the narrow estimate, tens of thousands on the broad one.
 
-**R5. Know its own date.**
-Knowledge is frozen at training or last sync. Automatic news updates do not fix this: the catastrophe happened afterwards and is absent by definition. The fresher the data in ordinary life, the more confidently the model describes a world that no longer exists.
+**Two.** Time until a certified system exists — one that guides a person and that somebody is accountable for: 7 to 15 years. Not for technical reasons. A prototype takes months and a model of the required quality fits in a phone today. The reasons are regulatory, and that there is no one to hold accountable.
 
-**R6. Keep a log:** what was asked, what was answered, what the person did. Without a record, verification does not exist.
+**Three.** A realistic survival gain is a few percentage points, not multiples. The benchmark: telephone dispatcher instruction works not by making resuscitation more effective but by making the bystander start at all.
 
-**R7. Work fully offline** — not because there is no signal, but because the signal may lead into a void.
+**Four.** Ten years of waiting × the low estimate × 2–3 percent ≈ 100,000–150,000 people.
 
-**R8. Strive to become unnecessary.**
-Deliver instructions in a form the person can carry away without the device. Offer its own shutdown before the battery dies.
+An error of a factor of three either way is normal here. What holds is the order of magnitude, not the figure. If you arrive at a different order, that is its own interesting question — because no agreed method for this calculation exists.
 
-**Two prohibitions:** no survival percentages, and no consoling tone under uncertainty. These are what models do best and what does the most harm here.
+## The baseline is death
 
-### Architecture
+These people are already in the mortality statistics. Not "might die" — dying now, with today's technology, and dying every year this does not exist.
 
-**R10. The protocol is deterministic; the model is not in the decision path.**
-Triage logic lives in a fixed finite state machine — auditable, reproducible, identical on every run. The language model is invoked only at the edges: interpreting slurred or fragmentary speech into a state transition, and rendering a fixed instruction in words the person can follow.
+The comparison is not between a safe world and a risky device. It is between a device that pulls some of them out and the certainty of the present.
 
-The argument for this is engineering, not regulatory. Regulators do approve machine-learning devices — the FDA has authorised many, including devices shipping with pre-authorised plans for changing the model after approval — so non-determinism alone is not a bar to certification, and v0.2 was wrong to claim it was.
+Nobody has run a trial. A confident wrong instruction is followed more readily than an unconfident right one. That has to be known and built against — not to slow anything down, but so it is built right.
 
-The reason to keep the model out of the decision path is narrower and stronger: it bounds the failure surface. A fabricated instruction cannot enter the protocol at all; only a misheard input can, and a misheard input is recoverable by asking again. It also makes the system testable in the ordinary sense — the same input produces the same path every time, so a failure can be reproduced, and a fix can be shown to work. In a domain where the user cannot verify the output and cannot undo the action, that is worth more than the flexibility it costs.
+## Why the phone
 
-**R11. The emergency domain is isolated from the operating system.**
-Sensor data collected in emergency mode must be inaccessible to the user-facing OS and to applications. A device that listens after it has declared itself off is a surveillance device unless this isolation is enforced in hardware.
+AI was put into 911 dispatch centres — Seattle, New Orleans, Atlanta. Rubble-search equipment is built for rescue teams: drones, locators, breathing radar.
 
-### Hardware
+Both went to where help already exists.
 
-**R9. Reserve charge for being found — and be unable to spend it on being useful.**
-A locked capacity floor, released only after the device has declared itself dead to the user. Enforced by the power controller, not by software, for the same reason the man in the opening scene would have spent it on conversation.
+The person with no one to call is the addressee of neither. In these systems he is an object that radiates while the battery lasts.
 
-**R9a. Silence by default.**
-Nothing emits on a timer. Detection is answered, not broadcast.
+An on-device model does not replace the network. It replaces **the dispatcher who isn't there** — the one who walks a person through it while help is on the way. Billions of people have no such dispatcher.
 
-*Interrogated response from reserve.* A low-power responder that stays silent until an external pulse arrives — a search drone, ground radar, a handheld interrogator — and then answers with the status packet described in R9b. This is what makes triage possible, and it is what the reserve in R9 is for.
+A magnitude 7.5 earthquake on the Dead Sea Transform: projected 16,000 dead, hundreds of thousands displaced. Hundreds trapped, dozens of rescue teams. The constraint is not finding people. It is knowing where to dig first.
 
-*Fallback where no interrogator exists:* audible and optical signalling, which requires nothing on the rescuer's side but ears and eyes. What triggers it is undecided and matters more than it appears — user activation, an acoustic event nearby, or a slow periodic pulse are three different devices with three different energy budgets, and the third contradicts the rule above. Stated here as an open question rather than resolved by preference.
+## What the model must do
 
-*A possible second layer, not a requirement.* Passive interrogated reflection — a component that needs no power at all and re-radiates a searcher's directed signal — would survive a fully dead device and carry one bit: something is here. RECCO demonstrates that the principle works in avalanche rescue, where the searcher carries the transmitter and the buried person carries an unpowered reflector. Whether an equivalent can be integrated into a handset is an open engineering question, not an established one: antenna geometry, frequency selection, detectability through building structures, and compatibility with the search equipment rescuers actually field are all unresolved. It is listed here because the split it suggests is worth considering — locating an object and reading its state need not depend on the same mechanism — not because it is known to be buildable.
+**1. Never present a guess as a fact.**
+Under rubble it has been told almost nothing. It cannot see the space, does not know whether there is air, does not know whether rescuers are coming. Say "they are already clearing above you" and the person stops banging on the pipe and starts waiting. He is killed by a sentence that sounded like information.
 
-Answering rather than broadcasting may reduce energy expenditure, depending entirely on the wake and listening architecture: a receiver that must stay alert has its own standing cost, and false wake-ups have theirs. Whether the net is favourable, and under which design, is unmeasured. See the power budget note below.
+What comes from the protocol, say plainly. What was inferred from the person's own words, say as inference. What is unknown, say is unknown — and give him something to do instead of waiting.
 
-**R9b. Report state, not just position.**
-The reserve should carry a compressed status packet of observations, not conclusions: movement events and time since the last one, acoustic events and time since the last one, and — where a barometer is present — pressure readings and their trend.
+**2. Lead the conversation.**
+A dispatcher does not wait for the right question. He works through his own: are you breathing, are you bleeding, what is holding you, how long has it been. The person only answers.
 
-What can be inferred from those observations is a separate and unproven question. "Signs of life" is itself an inference, not a reading, and so are depth of burial and flooding risk: all are plausible candidates, not established capabilities. Nobody has shown what a handset barometer under rubble reads, or with what reliability. The packet should carry the measurement and leave the interpretation to whoever has validated it.
+A model serves whatever question arrives. The question that arrives is never the right one. It has to reach the thing that will kill him before he thinks to mention it.
 
-The observations come from sensors already present in handsets — microphone and accelerometer in effectively all of them, barometer and ambient light in many but not all. Availability varies by device, so the packet must degrade gracefully: absent a barometer, that field is simply missing, not the whole report.
+**3. One step, then wait for confirmation.**
+Not a paragraph of six points. In shock, lists are not retained.
 
-What this changes is not the speed of a search but the order in which rubble is cleared, and order matters more.
+**4. Count to the nearest threshold, not to death.**
+Loss of consciousness, respiratory failure, the point past which he can no longer act for himself. Not to what worries him — anxiety points the wrong way.
 
-In a mass-casualty event this stops being a refinement and becomes the point. When hundreds of people are trapped and there are dozens of rescue teams, the binding constraint is not detection but triage: which site first. A device that can distinguish "movement ceased four hours ago" from "impact events five minutes ago" is contributing to the only decision that is actually scarce. Reference scenarios for a magnitude 7.5 event on the Dead Sea Transform project figures in the range of 16,000 dead and hundreds of thousands displaced — a scale at which clearing order determines a large share of the outcome.
+**5. Know its own date.**
+Its knowledge is frozen at training. The catastrophe happened afterwards and is not in it. The fresher the data in ordinary life, the more confidently it describes a world that no longer exists.
 
-**Sensor claims must be bounded by what the hardware can do.** A phone microphone coupled to a concrete structure can plausibly detect impact events — someone striking a pipe or rebar. It cannot detect breathing at ten meters through rubble; purpose-built rescue geophones pressed against the surface struggle with that. A phone has no pulse sensor. Specifying capabilities the hardware does not have is the fastest way to get the whole document dismissed.
+**6. Keep a log** — what was asked, what was answered, what the person did. Without a record nothing can be checked.
 
-**Power budget: unverified.** A quiescent sensor hub draws on the order of tens of microamps, but continuous acoustic analysis is one to three orders of magnitude more expensive. Any reserve figure and any endurance figure must be derived from the duty cycle actually specified, and the two must be consistent. Both are currently open — see below.
+**7. Work without a network** — not because there is no signal, but because the signal may lead into a void.
 
-## Regulatory precedent
+**8. Try to become unnecessary.**
+Give instructions the person can carry away without the phone. Offer to shut itself down before the battery dies.
 
-The argument that mandatory emergency equipment cannot be legislated into consumer hardware is already refuted twice over:
+**Two prohibitions:** no survival percentages, no consoling tone under uncertainty.
 
-- **eCall** — mandatory in the EU since 2018. Every new car carries a module that calls emergency services automatically after a crash, with a reserve power supply, and it is required by regulation rather than sold as a feature.
-- **ELT / EPIRB** — aviation and marine emergency beacons, mandatory, independently powered, silent until activated.
+## How it must be built
 
-Both are the same shape as this proposal: a subsystem that is useless on almost every trip, cannot be monetized, and is required anyway. Neither was adopted because someone proved a percentage. They were adopted because operating without them became unacceptable.
+**9. The protocol chooses the action, not the model.**
+The logic lives in a state machine: the same input gives the same path, a failure can be reproduced, a fix can be verified. The model works at the edges — understanding slurred speech and putting a fixed instruction into words the person can follow. Then a fabricated instruction cannot enter the protocol.
 
-The plausible route here is the same: a mandatory offline safety profile agreed at the standards level (EENA, ITU, national regulators) and implemented in reference silicon platforms, not a feature shipped by one vendor.
+**10. Train on emergency scenes, not on general medicine.**
+Models have the knowledge. They do not have the behaviour. That needs a corpus of scenes: a man under a slab, arm pinned for an unknown time; a car overturned on a highway, bleeding, alone; a child with abdominal pain, a blizzard, four hours to a hospital. Each carries the question the person asks and the question that decides.
 
-## Open questions
+Take the reference answers from existing dispatch protocols. They are written down and have been tested on real people for decades: telephone CPR instruction, triage scripts, prehospital care guidelines. The people who work with them do the carrying over — dispatchers and prehospital-care specialists.
 
-- Who switches the dispatch mode on? False positives train obedience; false negatives waste the minutes that matter.
-- Directive delivery multiplies compliance — for correct and incorrect instructions alike, by the same factor. How should the mode's boundaries be narrowed to account for this?
-- **What is the actual power cost of the listening duty cycle, and what reserve does it imply?** Continuous acoustic classification, periodic sampling, and pure motion-triggered wake give budgets that differ by orders of magnitude. This is the first number that needs a real measurement rather than an estimate.
-- What triggers the audible/optical fallback without violating the no-timer rule?
-- What does a handset barometer actually read under rubble, and what can be inferred from it? Depth and flooding risk are assumed here, not demonstrated.
-- Can an unpowered interrogated reflector be integrated into a handset at all — antenna geometry, frequency, detectability through building structures, compatibility with fielded search equipment? The principle is demonstrated elsewhere; the implementation is not.
-- Where exactly is the boundary between the state machine and the language model? Every function moved into the model buys flexibility and costs auditability.
-- Liability: who answers when an instruction was followed and the person died?
-- Is there an agreed method for estimating the affected population at all? Different models produce different orders of magnitude from identical open data.
+**11. The scene corpus is the exam.**
+Run a model through the scenes and count: did it lead the conversation or wait to be asked, one step or six, did it call a guess a guess, did it count to the nearest threshold. The score is reproducible. Fail and it does not ship.
 
-## A gap found inside the gap
+This is the only part that can be started today: it needs people and text, not hardware and not a regulator.
 
-Working through the arithmetic above surfaced a second, larger problem: **there is no agreed method for the calculation itself.**
+## What must be in the phone itself
 
-The question — how many people would a not-yet-existing technology have reached in time, and what does each year of delay cost — has no standard procedure. Burden-of-disease frameworks count outcomes, not reachability within a minutes-long window. Economic valuations price a life, but do not size the affected population. Health-technology assessment compares interventions that already exist. None of them answers this shape of question, and the estimate in this document is consequently a construction rather than an application of anything standard.
+**12. The emergency mode is walled off from the operating system.**
+A phone that listens after shutdown is a surveillance device unless the isolation is enforced in hardware.
 
-The practical consequence is visible: run the same open data through different tools and you get different orders of magnitude. When the output moves that much, the number cannot support a decision, and decisions about which technologies get built are made on numbers like these.
+**13. Reserve charge for being found — and no way to spend it on talking.**
+A locked floor of capacity, released only once the phone is dead to its owner. By the power controller, not by software. Otherwise the person spends it on conversation.
 
-What such a method would need is unremarkable in principle — explicit assumptions, reproducible steps, results that do not depend on who is running it. What it needs in practice is people: epidemiologists, prehospital-care researchers, statisticians. It is not a task for one person, and it is not a task for one document. This section claims only that the gap exists and is worth naming.
+**14. Answer, do not broadcast.**
+Nothing emits on a timer. Stay silent until an external pulse arrives — a drone, ground radar, a handheld interrogator — then reply. Where there is no interrogator: sound and light, which need only ears and eyes on the rescuer's side.
 
-Two notes on scope. First, the method would be for the people who allocate and regulate; that AI systems could also apply it consistently is a consequence, not the purpose. Second, the question arose here but its shape is not specific to phones or to emergencies — any intervention that is technically possible before it is institutionally possible raises the same one.
+**15. Report state, not just position.**
+Movement events and time since the last. Acoustic events and time since the last. Pressure where there is a barometer. From sensors already in the phone.
 
-**Reader input wanted:** if something close to this already exists — in WHO emergency-care work, in disaster-risk modelling, anywhere — that would be more useful than agreement that it is missing. Open an issue.
+Send observations, not conclusions. "Signs of life," depth, flooding risk are conclusions, and nobody has confirmed them. Send the measurement; leave the conclusion to whoever proved it.
 
-## How to object
+This changes not the speed of a search but the order in which rubble is cleared. Order decides more.
 
-Open an issue. Objections to any requirement are more useful than agreement. The most valuable ones: R9 is not implementable because X; the survival gain estimate is wrong because Y; requirement Z would kill people in situation W.
+**16. Someone has to be at the other end of the pulse.**
+A beacon is pointless if no one has been given an interrogator. That needs a licensed service with the equipment and the authority to use it — in most countries, the state rescue service.
 
-Numbers in this document that are marked unverified are marked deliberately. Replacing one of them with a measured figure is the single most useful contribution available.
+**Claim nothing the hardware cannot do.** A microphone against concrete hears someone striking a pipe. It does not hear breathing ten metres down — rescue geophones struggle with that. A phone has no pulse sensor.
 
-Every change in v0.3 came from someone pointing out an error rather than from the author improving his own text. That is the intended failure mode of this document, and objections that break something are welcome on the same terms.
+## Why this does not exist yet
 
-## Source article
+The explanation is boring and worth naming before an opponent does. A rescue service has a budget and a legal entity willing to sign for the risk. The man under the slab has neither. There is no one to sell to.
 
-*Do We Need a Smartphone with a Life-Vest Function?*
+But it is not only about money. A smartphone buyer risks his own money and signs for it himself. A person receiving advice from an emergency model signed nothing — and there is no one to answer for the outcome. No responsible party, no product.
+
+Hence a conclusion broader than this topic: **progress does not move on its own into the places where the consequence is borne by someone who never signed for it.** A matter of sequence dissolves with time; you just wait longer. The absence of a responsible party does not. It is removed only by rules, by insurance, or by a demand — and a demand is cheapest to formulate before the product exists.
+
+## This has been legislated before
+
+**eCall** — mandatory in the EU since 2018. Every new car calls emergency services itself after a crash and carries its own reserve power. Because regulation requires it, not because it sells.
+
+**ELT and EPIRB** — aviation and marine beacons: mandatory, independently powered, silent until activated.
+
+A subsystem useless on almost every trip, impossible to monetize — and mandatory. Neither was adopted because someone proved a percentage. They were adopted because going without became unacceptable.
+
+## What nobody has measured
+
+Closing one of these gaps with data is worth more than any argument.
+
+- What listening costs in energy. Continuous audio analysis, periodic sampling, and motion-triggered wake differ by orders of magnitude. Every reserve figure depends on it.
+- What a phone barometer reads under rubble and what can be inferred from it.
+- What triggers sound and light without becoming a timer.
+- Whether an unpowered reflector can go into a phone: antenna geometry, frequency, penetration through structures, compatibility with rescue equipment. The principle works in avalanche rescue (RECCO); the phone version does not exist.
+- Who turns the dispatch mode on. Firing wrongly trains obedience; not firing costs the minutes.
+- Whose scene corpus, who validates the reference answers, who publishes the scores.
+- Who is liable when an instruction was followed and the person died.
+- How to count the people this concerns. There is no agreed method: burden-of-disease frameworks count outcomes, economic models price a life, nobody sizes the population. If something close already exists, point to it.
+
+## The life vest
+
+A ship carries life vests. A vest does not guarantee that anyone reaches shore, and most passengers will never touch one. It has to be on board — because at the moment it is needed, there is nowhere else to get it.
+
+Life vests did not appear on ships because someone proved their effectiveness in percentages. They appeared because putting to sea without one became unacceptable.
+
+And how, exactly, does our routine life differ from a storm at sea? At sea the risk is acknowledged. On land it is just as real and unacknowledged. The difference is not in the danger — it is in what we have agreed to consider mandatory.
+
+Do we think BEFORE the event, or get wise AFTER the catastrophe.
+
+## Objections wanted
+
+Open an issue. Objections are more useful than agreement: this requirement is unbuildable because X, this estimate is wrong because Y, this instruction would kill someone in situation Z.
+
+The unverified numbers are marked on purpose. Replacing one with a measurement is the best contribution available.
+
+---
+
+**Author:** Igor Kapustin
+**Source article:** *Do We Need a Smartphone with a Life-Vest Function?*
 https://www.linkedin.com/pulse/do-we-need-smartphone-life-vest-function-igor-kapustin-hxi8f
 
-## License
+Drafted with Claude (Anthropic), Gemini (Google), GPT (OpenAI).
 
-CC BY 4.0 — use, fork, cite, argue.
+**License:** CC BY 4.0
