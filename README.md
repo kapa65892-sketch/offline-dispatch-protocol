@@ -46,9 +46,11 @@ There is no precise statistic: nobody counts "moments of isolated decision" as a
 
 **Two.** Time until a certified system exists — one that guides a person and that somebody is accountable for: 7 to 15 years. Not for technical reasons. A prototype takes months and a model of the required quality fits in a phone today. The reasons are regulatory, and that there is no one to hold accountable.
 
-**Three.** A realistic survival gain is a few percentage points, not multiples. The benchmark: telephone dispatcher instruction works not by making resuscitation more effective but by making the bystander start at all.
+**Three.** A realistic survival gain is 2–3 percentage points, not multiples. The benchmark: telephone dispatcher instruction works not by making resuscitation more effective but by making the bystander start at all.
 
-**Four.** Ten years of waiting × the low estimate × 2–3 percent ≈ 100,000–150,000 people.
+**Four.** Seven years of waiting × the low estimate × 2–3 percent ≈ 100,000–150,000 people.
+
+Each input is taken at its low edge, deliberately: the low end of the population estimate, the low end of the gain, the short end of the regulatory wait. A higher figure is entirely plausible — five points, or fifteen years, and it runs into the hundreds of thousands. The argument does not rest on that. A claim that survives on its weakest assumptions does not need the strong ones.
 
 An error of a factor of three either way is normal here. What holds is the order of magnitude, not the figure. If you arrive at a different order, that is its own interesting question — because no agreed method for this calculation exists.
 
@@ -71,6 +73,14 @@ The person with no one to call is the addressee of neither. In these systems he 
 An on-device model does not replace the network. It replaces **the dispatcher who isn't there** — the one who walks a person through it while help is on the way. Billions of people have no such dispatcher.
 
 A magnitude 7.5 earthquake on the Dead Sea Transform: projected 16,000 dead, hundreds of thousands displaced. Hundreds trapped, dozens of rescue teams. The constraint is not finding people. It is knowing where to dig first.
+
+## Two modes, because the person is not always the same person
+
+Everything said about conversation holds under one condition: the person is conscious and able to respond — by voice, however slurred, or by touch, if at least one hand is free and intact. Then the model leads him through the protocol, and that is half of this specification.
+
+The other half is for when that condition fails. Unconscious, no voice left, hands pinned. There is nobody to talk to. What remains is the device: a silent beacon that answers when rescuers interrogate it, and a monitor that reports someone is here and in what condition.
+
+The same phone, two different modes. While the person is conscious — an advisor. Once he falls silent — a beacon. And it has to switch between them on its own, without asking permission from someone who can no longer give it.
 
 ## What the model must do
 
