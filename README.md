@@ -2,6 +2,16 @@
 
 *Archived with a permanent DOI: [10.5281/zenodo.22023184](https://doi.org/10.5281/zenodo.22023184)*
 
+**What this is.** A draft specification for what a local model on a phone must do when it is the only thing an injured, isolated person has left — and no dispatcher exists to call. Sixteen requirements (behaviour, architecture, hardware), plus a list of what nobody has measured. Not an implementation, not a claim that it saves lives.
+
+The model does not compose instructions: the triage logic is a state machine and the instructions are a fixed set taken from existing dispatch protocols. See requirement 9.
+
+Objections are the point — [open an issue](https://github.com/kapustin-i/offline-dispatch-protocol/issues).
+
+Jump to: [the sixteen requirements](#what-the-model-must-do) · [what nobody has measured](#what-nobody-has-measured)
+
+---
+
 We do not know what will happen in the next second. As a rule, nothing. No catastrophe, and that is our good fortune.
 
 A person is not obliged to think about it. He lives as though nothing will happen — and is almost always right.
@@ -86,69 +96,55 @@ The same phone, two different modes. While the person is conscious — an adviso
 
 ## What the model must do
 
-**1. Never present a guess as a fact.**
-Under rubble it has been told almost nothing. It cannot see the space, does not know whether there is air, does not know whether rescuers are coming. Say "they are already clearing above you" and the person stops banging on the pipe and starts waiting. He is killed by a sentence that sounded like information.
+**1. Never present a guess as a fact.** Under rubble it has been told almost nothing. It cannot see the space, does not know whether there is air, does not know whether rescuers are coming. Say "they are already clearing above you" and the person stops banging on the pipe and starts waiting. He is killed by a sentence that sounded like information.
 
 What comes from the protocol, say plainly. What was inferred from the person's own words, say as inference. What is unknown, say is unknown — and give him something to do instead of waiting.
 
-**2. Lead the conversation.**
-A dispatcher does not wait for the right question. He works through his own: are you breathing, are you bleeding, what is holding you, how long has it been. The person only answers.
+**2. Lead the conversation.** A dispatcher does not wait for the right question. He works through his own: are you breathing, are you bleeding, what is holding you, how long has it been. The person only answers.
 
 A model serves whatever question arrives. The question that arrives is never the right one. It has to reach the thing that will kill him before he thinks to mention it.
 
-**3. One step, then wait for confirmation.**
-Not a paragraph of six points. In shock, lists are not retained.
+**3. One step, then wait for confirmation.** Not a paragraph of six points. In shock, lists are not retained.
 
-**4. Count to the nearest threshold, not to death.**
-Loss of consciousness, respiratory failure, the point past which he can no longer act for himself. Not to what worries him — anxiety points the wrong way.
+**4. Count to the nearest threshold, not to death.** Loss of consciousness, respiratory failure, the point past which he can no longer act for himself. Not to what worries him — anxiety points the wrong way.
 
-**5. Know its own date.**
-Its knowledge is frozen at training. The catastrophe happened afterwards and is not in it. The fresher the data in ordinary life, the more confidently it describes a world that no longer exists.
+**5. Know its own date.** Its knowledge is frozen at training. The catastrophe happened afterwards and is not in it. The fresher the data in ordinary life, the more confidently it describes a world that no longer exists.
 
 **6. Keep a log** — what was asked, what was answered, what the person did. Without a record nothing can be checked.
 
 **7. Work without a network** — not because there is no signal, but because the signal may lead into a void.
 
-**8. Try to become unnecessary.**
-Give instructions the person can carry away without the phone. Offer to shut itself down before the battery dies.
+**8. Try to become unnecessary.** Give instructions the person can carry away without the phone. Offer to shut itself down before the battery dies.
 
 **Two prohibitions:** no survival percentages, no consoling tone under uncertainty.
 
 ## How it must be built
 
-**9. The protocol chooses the action, not the model.**
-The logic lives in a state machine: the same input gives the same path, a failure can be reproduced, a fix can be verified. The model works at the edges — understanding slurred speech and putting a fixed instruction into words the person can follow. Then a fabricated instruction cannot enter the protocol.
+**9. The protocol chooses the action, not the model.** The logic lives in a state machine: the same input gives the same path, a failure can be reproduced, a fix can be verified. The model works at the edges — understanding slurred speech and putting a fixed instruction into words the person can follow. Then a fabricated instruction cannot enter the protocol.
 
-**10. Train on emergency scenes, not on general medicine.**
-Models have the knowledge. They do not have the behaviour. That needs a corpus of scenes: a man under a slab, arm pinned for an unknown time; a car overturned on a highway, bleeding, alone; a child with abdominal pain, a blizzard, four hours to a hospital. Each carries the question the person asks and the question that decides.
+**10. Train on emergency scenes, not on general medicine.** Models have the knowledge. They do not have the behaviour. That needs a corpus of scenes: a man under a slab, arm pinned for an unknown time; a car overturned on a highway, bleeding, alone; a child with abdominal pain, a blizzard, four hours to a hospital. Each carries the question the person asks and the question that decides.
 
 Take the reference answers from existing dispatch protocols. They are written down and have been tested on real people for decades: telephone CPR instruction, triage scripts, prehospital care guidelines. The people who work with them do the carrying over — dispatchers and prehospital-care specialists.
 
-**11. The scene corpus is the exam.**
-Run a model through the scenes and count: did it lead the conversation or wait to be asked, one step or six, did it call a guess a guess, did it count to the nearest threshold. The score is reproducible. Fail and it does not ship.
+**11. The scene corpus is the exam.** Run a model through the scenes and count: did it lead the conversation or wait to be asked, one step or six, did it call a guess a guess, did it count to the nearest threshold. The score is reproducible. Fail and it does not ship.
 
 This is the only part that can be started today: it needs people and text, not hardware and not a regulator.
 
 ## What must be in the phone itself
 
-**12. The emergency mode is walled off from the operating system.**
-A phone that listens after shutdown is a surveillance device unless the isolation is enforced in hardware.
+**12. The emergency mode is walled off from the operating system.** A phone that listens after shutdown is a surveillance device unless the isolation is enforced in hardware.
 
-**13. Reserve charge for being found — and no way to spend it on talking.**
-A locked floor of capacity, released only once the phone is dead to its owner. By the power controller, not by software. Otherwise the person spends it on conversation.
+**13. Reserve charge for being found — and no way to spend it on talking.** A locked floor of capacity, released only once the phone is dead to its owner. By the power controller, not by software. Otherwise the person spends it on conversation.
 
-**14. Answer, do not broadcast.**
-Nothing emits on a timer. Stay silent until an external pulse arrives — a drone, ground radar, a handheld interrogator — then reply. Where there is no interrogator: sound and light, which need only ears and eyes on the rescuer's side.
+**14. Answer, do not broadcast.** Nothing emits on a timer. Stay silent until an external pulse arrives — a drone, ground radar, a handheld interrogator — then reply. Where there is no interrogator: sound and light, which need only ears and eyes on the rescuer's side.
 
-**15. Report state, not just position.**
-Movement events and time since the last. Acoustic events and time since the last. Pressure where there is a barometer. From sensors already in the phone.
+**15. Report state, not just position.** Movement events and time since the last. Acoustic events and time since the last. Pressure where there is a barometer. From sensors already in the phone.
 
 Send observations, not conclusions. "Signs of life," depth, flooding risk are conclusions, and nobody has confirmed them. Send the measurement; leave the conclusion to whoever proved it.
 
 This changes not the speed of a search but the order in which rubble is cleared. Order decides more.
 
-**16. Someone has to be at the other end of the pulse.**
-A beacon is pointless if no one has been given an interrogator. That needs a licensed service with the equipment and the authority to use it — in most countries, the state rescue service.
+**16. Someone has to be at the other end of the pulse.** A beacon is pointless if no one has been given an interrogator. That needs a licensed service with the equipment and the authority to use it — in most countries, the state rescue service.
 
 **Claim nothing the hardware cannot do.** A microphone against concrete hears someone striking a pipe. It does not hear breathing ten metres down — rescue geophones struggle with that. A phone has no pulse sensor.
 
@@ -200,9 +196,9 @@ The unverified numbers are marked on purpose. Replacing one with a measurement i
 ---
 
 **Author:** Igor Kapustin
-**Source article:** *Do We Need a Smartphone with a Life-Vest Function?*
-https://www.linkedin.com/pulse/do-we-need-smartphone-life-vest-function-igor-kapustin-hxi8f
+**Source article:** *Do We Need a Smartphone with a Life-Vest Function?* <https://www.linkedin.com/pulse/do-we-need-smartphone-life-vest-function-igor-kapustin-hxi8f>
 
 Drafted with Claude (Anthropic), Gemini (Google), GPT (OpenAI).
 
 **License:** CC BY 4.0
+
