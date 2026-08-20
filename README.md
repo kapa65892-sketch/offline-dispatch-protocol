@@ -1,5 +1,7 @@
 # Offline Emergency Dispatch Protocol
 
+*Archived with a permanent DOI: [10.5281/zenodo.22023184](https://doi.org/10.5281/zenodo.22023184)*
+
 We do not know what will happen in the next second. As a rule, nothing. No catastrophe, and that is our good fortune.
 
 A person is not obliged to think about it. He lives as though nothing will happen — and is almost always right.
