@@ -144,6 +144,8 @@ Send observations, not conclusions. "Signs of life," depth, flooding risk are co
 
 This changes not the speed of a search but the order in which rubble is cleared. Order decides more.
 
+And because every casualty carries one, a collapse zone contains a field of such nodes — each at the point where a person actually lies, each reporting its own surroundings. The casualties bring the sensors in with them: nothing has to be delivered to the scene. What a rescue team reads from outside is then not one return but a distribution — where people are, and which of them have stopped moving and when. A node that answers passively while no active node reports from the same place is not an empty return either: it may mark someone whose battery is dead.
+
 **16. Someone has to be at the other end of the pulse.** A beacon is pointless if no one has been given an interrogator. That needs a licensed service with the equipment and the authority to use it — in most countries, the state rescue service.
 
 **Claim nothing the hardware cannot do.** A microphone against concrete hears someone striking a pipe. It does not hear breathing ten metres down — rescue geophones struggle with that. A phone has no pulse sensor.
@@ -172,6 +174,7 @@ Closing one of these gaps with data is worth more than any argument.
 - What a phone barometer reads under rubble and what can be inferred from it.
 - What triggers sound and light without becoming a timer.
 - Whether an unpowered reflector can go into a phone: antenna geometry, frequency, penetration through structures, compatibility with rescue equipment. The principle works in avalanche rescue (RECCO); the phone version does not exist.
+- How a node would establish its position under rubble. There is no GPS down there, and a field of nodes is only useful if the returns can be placed relative to each other. Mutual ranging off the interrogating pulse is plausible and unproven.
 - Who turns the dispatch mode on. Firing wrongly trains obedience; not firing costs the minutes.
 - Whose scene corpus, who validates the reference answers, who publishes the scores.
 - Who is liable when an instruction was followed and the person died.
@@ -201,4 +204,3 @@ The unverified numbers are marked on purpose. Replacing one with a measurement i
 Drafted with Claude (Anthropic), Gemini (Google), GPT (OpenAI).
 
 **License:** CC BY 4.0
-
